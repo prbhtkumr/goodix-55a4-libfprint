@@ -1,0 +1,61 @@
+NOTICE - third-party attributions
+=================================
+
+This repository distributes a patch set ("the patch") that modifies the
+following upstream components. No upstream code is vendored here beyond the
+patch itself; the patch applies on top of the pinned sources listed below.
+
+1. libfprint Goodix TLS driver family
+   Files: libfprint/drivers/goodixtls/{goodix.c,goodix.h,goodixtls.c,
+          goodixtls.h,goodix_proto.c,goodix_proto.h,goodix55x4.c,
+          goodix55x4.h,goodix511.c,goodix511.h}
+   Copyright (C) 2021 Alexander Meiler <alex.meiler@protonmail.com>
+   Copyright (C) 2021 Matthieu CHARETTE <matthieu.charette@gmail.com>
+   Copyright (C) 2021 Alireza S.N. <alireza6677@gmail.com>
+   License: LGPL-2.1-or-later
+   Obtained via: TheWeirdDev/libfprint (branch 55b4-experimental) @ d1ca62a,
+                 itself libfprint upstream.
+
+2. SIGFM matcher
+   Files: libfprint/sigfm/{sigfm.cpp,sigfm.hpp,binary.hpp,img-info.hpp}
+   Copyright (C) 2022 Matthieu CHARETTE <matthieu.charette@gmail.com>
+   Copyright (c) 2022 Natasha England-Elbro <ashenglandelbro@protonmail.com>
+   License: LGPL-2.1-or-later
+
+3. libfprint core (unmodified dependency; the patch touches fp-print.c,
+   fp-image.c, fp-image-device.c/.h only where noted in the patch itself)
+   License: LGPL-2.1-or-later
+
+4. goodix-fp-dump (github.com/goodix-fp-dump/goodix-fp-dump)
+   Used for: the 256-byte sensor configuration blob embedded in
+   goodix55x4.c (DEVICE_CONFIG), the public "whitebox" PSK provisioning
+   value and slot (0xbb010003), and read-only research/probe scripts.
+   License: MIT
+
+5. Finger-presence polling mechanism (host-side diff polling with retry)
+   Origin: sidevesh, contributed to TheWeirdDev/libfprint as PR #4;
+   adapted and extended (threshold env override, baseline-stability logic).
+   License: LGPL-2.1-or-later (as the codebase it lands in)
+
+6. squash_frame_linear (12-bit to 8-bit frame squashing)
+   Origin: borrowed from libfprint's elan driver; heavily modified
+   (interior percentile trim).
+   License: LGPL-2.1-or-later
+
+7. Hydrogell/goodix-27c6-55a4-fingerprint-linux (github.com/Hydrogell)
+   Used for: the pinned build harness (setup.sh) and community protocol
+   documentation, which this repository links to rather than vendors
+   (no license stated upstream; all rights remain with its author).
+   Respect upstream's terms.
+
+8. OpenCV (SIFT feature extraction, BFMatcher)
+   License: Apache-2.0 (system dependency, not redistributed here)
+
+9. OpenSSL (TLS-PSK localhost server used by the driver)
+   License: Apache-2.0 (system dependency, not redistributed here)
+
+The sensor's NVM "whitebox" key blob referenced by the provisioning tooling is
+a fixed, publicly-distributed vendor test value; it is not device-specific and
+is not derived from any party's confidential material. This repository's
+scripts do not write it; provisioning is performed by upstream tooling as an
+explicit, separate, consented step.
